@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>ProjectChart6.js demo</title>
+        <script src="Chart.min.js"></script>
+        <link rel="stylesheet" href="layout.css" type="text/css"> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+        <link href = 'https://fonts.googleapis.com/css?family=Helvetica' ref = 'stylesheet'>
+    </head>
+    <body>
+        <p class ="sansserif", align="center"><b>  Projected End Time: 8PM </b></p>
+        <div id ="first">
+            <canvas id="myChart1" width="300pm" height="300px"></canvas> 
+        </div> 
+        <div id="second">
+            <canvas id="myChart2" width="300px" height="300px"></canvas>
+        </div>
+        <div id="third">
+            <canvas id="myChart3" width="300px" height="300px"></canvas>
+        </div>
+         <div id="forth">
+            <canvas id="myChart4" width="300px" height="140px"></canvas>
+        </div>
+        
+    </body>
+    
+    <script>
+    //Four Charts in each quadrants of the page.
+    /* TO DO: 
+        - figure out how to hide all of the charts except the first one.
+        - once the first one is clicked, the other three appears in their respective quadrants.
+        - event handling for the forth chart 
+    */
+    //First Chart config
+    config1 = {
+
+        type: 'doughnut',
+        data: {
+            
+            labels: ["LPS Done", "LPS Remaining"],
+            datasets: [{
+                label: "Units",
+                backgroundColor: ["#80ffff", "#ff3333"],
+                hoverBackgroundColor: ["#00e6e6", "#ff0000"],
+                hoverBorderColor: "#808080", 
+                data: [2100, 900],
+                borderWidth: [1.4, 1.4],
+            }]
+            
+        },
+
+        options: {
+            responsive: false,
+            maintainAspectRatio: true,
+            animation: {
+                animateRotate: true, 
+                animateScale: true,
+            },
+            rotation: -Math.PI, 
+            cutoutPercentage: 50, //50 is a doughbut, 0 is a pie chart
+            
+            circumference: Math.PI,
+            title: {
+                display: true,
+                text: "LPS Done and Remaining",
+                fontSize: 13,
+                fontColor: "#000000",
+            },
+            legend: {
+                display: true, 
+                labels: {
+                    fontColor: "#000000",
+                    fontSize: 10,
+                }
+            },
+        }  
+    }; 
+
+    //Second chart config 
+    config2 = {
+        type: 'doughnut',
+        data: {
+            
+            labels: ["Other Scheduled Shipment", "Scheduled LPS"],
+            datasets: [{
+                label: "Units",
+                backgroundColor: ["#f48894", "#acdbc9"],
+                hoverBackgroundColor: ["#f7a7a6", "#dbebc2"],
+                hoverBorderColor: "#808080", 
+                data: [4000, 3000],
+                borderWidth: [1.4, 1.4], 
+            }]
+            
+        },
+
+        options: {
+            responsive: false,
+            maintainAspectRatio: true,
+            animation: {
+                animateRotate: true, 
+                animateScale: true,
+            },
+            rotation: -Math.PI, 
+            cutoutPercentage: 50, //50 is a doughbut, 0 is a pie chart
+            
+            circumference: Math.PI,
+            title: {
+                display: true,
+                text: "Scheduled LPS",
+                fontSize: 13,
+                fontColor: "#000000",
+            },
+            legend: {
+                display: true, 
+                labels: {
+                    fontColor: "#000000",
+                    fontSize: 10,
+                }
+            },
+        }  
+
+    };
+
+    //Third Chart config 
+    config3 = {
+        type: 'pie',
+        data: {
+            
+            labels: ["NEW", "WAITING_FOR INVENTORY", "READY_FOR_ASSEMBLY", "IN_ASSEMBLY", "SHIPPED", "CANCELED"],
+            datasets: [{
+                label: "Status",
+                backgroundColor: ["#3498db", "#80ffff", "#a8d164", "#e3a712", "#ff6f6f", "#d1404a"],
+                //hoverBackgroundColor: ["#00aaff"],
+                hoverBorderColor: "#808080", 
+                data: [7000, 4000, 2000, 5000, 2000, 300],
+                borderWidth: [1.4],
+            }]
+            
+        },
+
+        options: {
+            responsive: false,
+            maintainAspectRatio: true,
+            animation: {
+                animateRotate: true, 
+                animateScale: true,
+            },
+            title: {
+                display: true,
+                text: "Group Statuses",
+                fontSize: 13, 
+                fontColor: "#000000",
+            },
+            legend: {
+                display: true, 
+                labels: {
+                    fontColor: "#000000",
+                    fontSize: 10,
+                }
+            },
+        }  
+
+    }; 
+
+    config4 = {
+        type: 'line',
+        data: {
+            labels: ["8AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM"], //yLabels 
+            datasets: [{
+
+                label: "Throughput",
+                fill: false,
+
+                data: [50, 60, 100, 190, 120, 160, 170, 200, 220, 150, 100, 80], //xLabels 
+                Rates: []
+
+                /* Some custumization options... 
+                lineTension: 0.1,
+                backgroundColor: "rgba(75,192,192,0.4)",
+                borderColor: "rgba(75,192,192,1)",
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                pointBorderColor: "rgba(75,192,192,1)",
+                pointBackgroundColor: "#fff",
+                pointBorderWidth: 1,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: "rgba(75,192,192,1)",
+                pointHoverBorderColor: "rgba(220,220,220,1)",
+                pointHoverBorderWidth: 2,
+                pointRadius: 1,
+                pointHitRadius: 10,
+                spanGaps: false,
+                */
+
+            }],
+        }, 
+        options: {
+            responsive: true, 
+            title: {
+                display: true,
+                position: "top",
+                text: "Throughput",
+                fontSize: 13, 
+                fontColor: "#000000",
+            },
+            tooltips: {
+                enabled: true,
+                mode: 'single',
+                callbacks: {
+                    label: function(tooltipItems, data) { 
+                       var multistringText = [tooltipItems.yLabel];
+                           multistringText.push(".....");
+                           multistringText.push(".....");
+                           multistringText.push(".....");
+                        return multistringText;
+                    }
+                }
+            },
+            legend: {
+                display: true, 
+                labels: {
+                    fontColor: "#000000",
+                    fontSize: 10,
+                }
+            }, 
+           
+        },
+        
+    }; 
+       
+    window.onload = function() {
+        //This allows both charts to load at the same itme
+        //Instantiate the charts 
+
+        //First chart 
+        var stock1 = document.getElementById("myChart1").getContext('2d'); 
+        var myChart1 = new Chart(stock1, config1);
+        
+        //Second chart 
+        var stock2 = document.getElementById("myChart2").getContext('2d'); 
+        var myChart2 = new Chart(stock2, config2); 
+
+        //Thid chart 
+        var stock3 = document.getElementById("myChart3").getContext('2d'); 
+        var myChart3 = new Chart(stock3, config3); 
+
+        //Forth chart
+        var stock4 = document.getElementById("myChart4").getContext('2d'); 
+        var myChart4 = new Chart(stock4, config4); 
+     
+
+
+        //onClick --> Chart 1 
+        document.getElementById("myChart1").onclick = function(event)
+        {
+            var activePoints = myChart1.getElementsAtEvent(event);
+
+            if(activePoints.length>0){
+                var clickedElementindex = activePoints[0]["_index"]; //internal index of the slice. 
+                var label = myChart1.data.labels[clickedElementindex]; //get label by index 
+                
+                var value = myChart1.data.datasets[0].data[clickedElementindex]; //value by index
+                console.log(clickedElementindex); 
+                if(clickedElementindex==1){
+                   alert("LPS Remaining = 900");
+                }else {
+                   alert("LPS Done = 2100");
+
+                }
+
+               
+            } 
+        }
+
+        //onClick --> Chart 2 
+        document.getElementById("myChart2").onclick = function(event)
+        {
+            var activePoints = myChart2.getElementsAtEvent(event);
+
+            if(activePoints.length>0){
+                var clickedElementindex = activePoints[0]["_index"]; //internal index of the slice. 
+                var label = myChart2.data.labels[clickedElementindex]; //get label by index 
+                
+                var value = myChart2.data.datasets[0].data[clickedElementindex]; //value by index
+                console.log(clickedElementindex); 
+                if(clickedElementindex==1){
+                   alert("Scheduled LPS = 3000");
+                }else {
+                   alert("Other Scheduled Shipment = 4000");
+
+                }
+
+               
+            } 
+        }
+
+
+        //onClick --> Chart 3
+        document.getElementById("myChart3").onclick = function(event)
+        {
+            var activePoints = myChart3.getElementsAtEvent(event);
+
+            if(activePoints.length>0){
+                var clickedElementindex = activePoints[0]["_index"]; //internal index of the slice. 
+                var label = myChart3.data.labels[clickedElementindex]; //get label by index 
+                
+                var value = myChart3.data.datasets[0].data[clickedElementindex]; //value by index
+                console.log(clickedElementindex); 
+                switch(clickedElementindex){
+                    case 0: alert("clicked 0"); break; 
+                    case 1: alert("clicked 1"); break; 
+                    case 2: alert("clicked 2"); break; 
+                    case 3: alert("clicked 3"); break; 
+                    case 4: alert("clicked 4"); break; 
+                    case 5: alert("clicked 5"); break; 
+                }
+               
+            } 
+        }
+
+        //Handle chart 4 onClick like the others 
+        
+    }; 
+    
+
+    </script>
+</html>
