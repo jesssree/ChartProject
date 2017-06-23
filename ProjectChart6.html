@@ -6,7 +6,7 @@
  TODO: 
         - figure out how to hide all of the charts except the first one.   
             STATUS: 
-                Moved the creation of charts 2,3,4 into the on-click function for chart 1. They now appear when the chart 1 div is clicked. 
+                Moved the creation of charts 2,3,4 into the on-click function for chart 1. They now appear when the chart 1 div is clicked 
             BUGS: 
 
 
@@ -15,8 +15,6 @@
                 Moved the creation of charts 2,3,4 into the on-click function for chart 1. They now appear when the chart 1 div is clicked.
             BUGS:
                 -Every time you reclick chart1 div, charts 2,3,4 go through creation animation again
-                -This seems to break the alerts for clicking graphs 2,3,4
-
 
         - event handling for the fourth chart 
             STATUS:
@@ -26,15 +24,24 @@
 
         - back button to clear all graphs except 1
             STATUS:
-                added using chart.remove()
+                added using chart.clear()
+                done
             BUGS:
-                -Not able to redraw after removal
 
         - would increase readability to move <script> portion into separate file
             STATUS:
                 done
             BUGS:
                 none so far
+
+        - Figure out how to resize chart1 on click
+            STATUS:
+                
+            BUGS:
+BUGS:
+    declaration for charts is sloppy and global.. Maybe look into callbacks for defining them?
+    chart 4 (line) has sizing issues
+
 
 -->
 <html lang="en">
@@ -53,7 +60,7 @@
         <button onclick="removeCharts()">Back</button>
 
         <div id ="first">
-            <canvas id="myChart1" width="300pm" height="300px"></canvas> 
+            <canvas id="myChart1" width="700px" height="700px"></canvas> 
         </div> 
         <div id="second">
             <canvas id="myChart2" width="300px" height="300px"></canvas>
@@ -63,6 +70,9 @@
         </div>
          <div id="fourth">
             <canvas id="myChart4" width="300px" height="140px"></canvas>
+        </div>
+        <div id="second">
+            <canvas id="stockAge" width="300px" height="140px"></canvas>
         </div>
         
     </body>

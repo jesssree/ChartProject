@@ -1,6 +1,9 @@
 // JS file for ProjectChart6.html
 
-
+var myChart2;
+var myChart3;
+var myChart4;
+var stockAge;
 //First Chart config
 config1 = {
 
@@ -47,7 +50,7 @@ config1 = {
 }; 
 
 //Second chart config 
-config2 = {
+configLPS = {
     type: 'doughnut',
     data: {
         
@@ -92,7 +95,7 @@ config2 = {
 };
 
 //Third Chart config 
-config3 = {
+configGrpStat = {
     type: 'pie',
     data: {
         
@@ -132,16 +135,16 @@ config3 = {
 
 }; 
 
-config4 = {
+configThroughput = {
     type: 'line',
     data: {
-        labels: ["8AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM"], //yLabels 
+        labels: ["8AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM"], //xLabels 
         datasets: [{
 
             label: "Throughput",
             fill: false,
 
-            data: [50, 60, 100, 190, 120, 160, 170, 200, 220, 150, 100, 80], //xLabels 
+            data: [50, 60, 100, 190, 120, 160, 170, 200, 220, 150, 100, 80], //yLabels 
             Rates: []
 
             /* Some custumization options... 
@@ -167,7 +170,7 @@ config4 = {
         }],
     }, 
     options: {
-        responsive: true, 
+        responsive: false, 
         title: {
             display: true,
             position: "top",
@@ -199,9 +202,46 @@ config4 = {
     },
     
 }; 
+
+configAge = {
+    type: 'bar',
+    data: { 
+        labels: ["Pending","Dispensed","In Assembly", "Picked"],
+        datasets: [{
+            label: "Normal",
+            fill: true,
+            data: [800,1000,600,750],
+            backgroundColor: [
+               
+                'rgba(255, 99, 132,1)',
+                'rgba(255, 99, 132,1)',
+                'rgba(255, 99, 132,1)',
+                'rgba(255, 99, 132,1)'
+
+            ],
+        },
+        {
+            label: "Aging",
+            fill: true,
+            data: [300,500,200,750],
+            rates:[]
+        }
+        ]
+    },
+    options: {
+        scales: {
+            xAxes: [{
+                stacked: true
+            }],
+            yAxes: [{
+                stacked: true
+            }]
+        }
+    }
+};
    
 window.onload = function() {
-    //This allows both charts to load at the same itme
+    //This allows both charts to load at the same time -- EDIT: I moved this to inside the click event to draw on click
     //Instantiate the charts 
 
     //First chart 
@@ -212,28 +252,16 @@ window.onload = function() {
     var stock2 = document.getElementById("myChart2").getContext('2d'); 
     var stock3 = document.getElementById("myChart3").getContext('2d'); 
     var stock4 = document.getElementById("myChart4").getContext('2d'); 
-    // var myChart2 = new Chart(stock2, config2); 
-    // var myChart3 = new Chart(stock3, config3); 
-    // var myChart4 = new Chart(stock4, config4); 
+    var AgeCon = document.getElementById("stockAge").getContext('2d');
+    
 
 
     //onClick --> Chart 1 
     document.getElementById("myChart1").onclick = function(event)
     {
-
-        //Second chart
-        var myChart2 = new Chart(stock2, config2); 
-        
-
-        //Thid chart 
-        var myChart3 = new Chart(stock3, config3); 
-
-        //Fourth chart
-        var myChart4 = new Chart(stock4, config4); 
      
-
+        $(this).animate({height:'300',width:'300'})
         var activePoints = myChart1.getElementsAtEvent(event);
-        console.log(activePoints);
 
         if(activePoints.length>0){
             var clickedElementindex = activePoints[0]["_index"]; //internal index of the slice. 
@@ -242,9 +270,24 @@ window.onload = function() {
             var value = myChart1.data.datasets[0].data[clickedElementindex]; //value by index
             console.log(clickedElementindex); 
             if(clickedElementindex==1){
-               alert("LPS Remaining = 900");
-            }else {
-               alert("LPS Done = 2100");
+               //alert("LPS Remaining = 900");
+                removeCharts();
+                       
+
+
+                //Second chart
+                myChart2 = new Chart(stock2, configLPS);
+
+                //Thid chart 
+                myChart3 = new Chart(stock3, configGrpStat); 
+
+                //Fourth chart
+                myChart4 = new Chart(stock4, configThroughput); 
+            } else {
+                //alert("LPS Done = 2100");
+                removeCharts();
+                stockAge = new Chart(AgeCon, configAge);
+
 
             }
 
@@ -254,13 +297,11 @@ window.onload = function() {
 
 
 
-
     //onClick --> Chart 2 
     document.getElementById("myChart2").onclick = function(event)
     {
         console.log(myChart2);
         var activePoints = myChart2.getElementsAtEvent(event);
-
         if(activePoints.length>0){
             var clickedElementindex = activePoints[0]["_index"]; //internal index of the slice. 
             var label = myChart2.data.labels[clickedElementindex]; //get label by index 
@@ -308,9 +349,24 @@ window.onload = function() {
 }; 
 
 function removeCharts() {
-    myChart2.clear();
-    myChart3.remove();
-    myChart4.remove();
+    $('myChart1').toggle(function() {
+        $(this).animate({width: '700px', height:'700px'})
+    });
+
+    if (myChart2 != undefined){
+        myChart2.clear();
+    }
+    if (myChart3 != undefined){
+        myChart3.clear();
+    }
+    if (myChart4 != undefined){
+        myChart4.clear();
+    }
+    if (stockAge != undefined) {
+        stockAge.clear();
+    }
+
+
 
 }
 

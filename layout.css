@@ -16,6 +16,7 @@ p.sansserif {
 #first { 
   top:10%;
   left:0;
+  z-index:100;
 }
 
 #second { 
